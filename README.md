@@ -1,0 +1,2 @@
+# odin
+vezbanje odin projekta
