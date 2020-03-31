@@ -1,0 +1,41 @@
+<script>
+  const rock = "ROCK";
+  const paper = "PAPER";
+  const scissors = "SCISSORS";
+  function computerPlay() {
+    var npc = Math.floor(Math.random() * 3);
+    switch (npc) {
+      case 0:
+        return paper;
+      case 1:
+        return scissors;
+      case 2:
+        return rock;
+    }
+  }
+  function playRound(playerSelection, computerSelection) {
+    playerSelection = playerSelection.toUpperCase();
+    if (playerSelection === computerSelection) {
+      //console.log(playerSelection, computerSelection, "1");
+      return "Nereseno";
+    }
+    if (playerSelection === paper && computerSelection == rock) {
+     // console.log(playerSelection, computerSelection, "2");
+      return "Pobedili ste, papir pobedjuje kamen";
+    }
+    if (playerSelection === scissors && computerSelection == paper) {
+     // console.log(playerSelection, computerSelection, "3");
+      return "Pobedili ste, makaze pobedjuju papir";
+    }
+    if (playerSelection === rock && computerSelection == scissors) {
+     // console.log(playerSelection, computerSelection, "4");
+      return "Pobedili ste, kamen pobedjuje makaze";
+    }
+   // console.log(playerSelection, computerSelection, "5");
+    return "Izgubili ste";
+  }
+
+  for (var i = 0; i < 10; i++) {
+    
+  }
+</script>
