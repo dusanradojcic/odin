@@ -2,6 +2,8 @@
   const rock = "ROCK";
   const paper = "PAPER";
   const scissors = "SCISSORS";
+  var npcPonits = 0;
+  var playerPoints = 0;
   function computerPlay() {
     var npc = Math.floor(Math.random() * 3);
     switch (npc) {
@@ -13,6 +15,7 @@
         return rock;
     }
   }
+
   function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toUpperCase();
     if (playerSelection === computerSelection) {
@@ -20,22 +23,48 @@
       return "Nereseno";
     }
     if (playerSelection === paper && computerSelection == rock) {
-     // console.log(playerSelection, computerSelection, "2");
+      // console.log(playerSelection, computerSelection, "2");
+      playerPoints++;
       return "Pobedili ste, papir pobedjuje kamen";
     }
     if (playerSelection === scissors && computerSelection == paper) {
-     // console.log(playerSelection, computerSelection, "3");
+      // console.log(playerSelection, computerSelection, "3");
+      playerPoints++;
       return "Pobedili ste, makaze pobedjuju papir";
     }
     if (playerSelection === rock && computerSelection == scissors) {
-     // console.log(playerSelection, computerSelection, "4");
+      // console.log(playerSelection, computerSelection, "4");
+      playerPoints++;
       return "Pobedili ste, kamen pobedjuje makaze";
     }
-   // console.log(playerSelection, computerSelection, "5");
+    // console.log(playerSelection, computerSelection, "5");
+    npcPonits++;
     return "Izgubili ste";
   }
 
-  for (var i = 0; i < 10; i++) {
-    
+  var winner1 = "";
+  function winner() {
+    if (playerPoints > npcPonits) {
+      return "Vi ste pobedili";
+    } else if (playerPoints < npcPonits) {
+      return "NPC je pobedio";
+    } else {
+      return "Nereseno";
+    }
   }
+
+  function play() {
+    computerSelection = computerPlay();
+    playerSelection = prompt("Unesite vas potez, (PAPER, ROCK SCISSORS)");
+    var result = playRound(playerSelection, computerSelection);
+    console.log("Poeni:");
+    console.log("Vasi: " + playerPoints + ", NPC: " + npcPonits);
+  }
+
+  for (var i = 0; i < 5; i++) {
+    play();
+  }
+
+  console.log(winner());
+
 </script>
