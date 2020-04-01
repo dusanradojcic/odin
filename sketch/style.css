@@ -1,6 +1,7 @@
 :root {
     --sirina: calc(100% * (1/16));
     --visina: calc(100% * (1/16));
+    --boja: #FFFFFF;
 }
 
 * {
@@ -21,6 +22,10 @@
 .child-div {
     width: var(--sirina);
     height: var(--visina);
+}
+
+.colorful{
+    background-color: var(--boja);
 }
 
 .black {
