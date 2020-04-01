@@ -1,74 +1,122 @@
-<script>
-  /* 
-  Ovde imamo skriptu za osnovnu igricu papir kamen makaze. Nasumicna igra kompjutera,
-  zatim igracev unos, poredjenje njihovih poteza i vracanje rezultata.
-  */
-  const rock = "ROCK";
-  const paper = "PAPER";
-  const scissors = "SCISSORS";
-  var npcPonits = 0;
-  var playerPoints = 0;
-  function computerPlay() {
-    var npc = Math.floor(Math.random() * 3);
-    switch (npc) {
-      case 0:
-        return paper;
-      case 1:
-        return scissors;
-      case 2:
-        return rock;
-    }
-  }
+<!DOCTYPE html>
+<html lang="en">
 
-  function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toUpperCase();
-    if (playerSelection === computerSelection) {
-      //console.log(playerSelection, computerSelection, "1");
-      return "Nereseno";
-    }
-    if (playerSelection === paper && computerSelection == rock) {
-      // console.log(playerSelection, computerSelection, "2");
-      playerPoints++;
-      return "Pobedili ste, papir pobedjuje kamen";
-    }
-    if (playerSelection === scissors && computerSelection == paper) {
-      // console.log(playerSelection, computerSelection, "3");
-      playerPoints++;
-      return "Pobedili ste, makaze pobedjuju papir";
-    }
-    if (playerSelection === rock && computerSelection == scissors) {
-      // console.log(playerSelection, computerSelection, "4");
-      playerPoints++;
-      return "Pobedili ste, kamen pobedjuje makaze";
-    }
-    // console.log(playerSelection, computerSelection, "5");
-    npcPonits++;
-    return "Izgubili ste";
-  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock, Paper, Scissors</title>
+</head>
 
-  var winner1 = "";
-  function winner() {
-    if (playerPoints > npcPonits) {
-      return "Vi ste pobedili";
-    } else if (playerPoints < npcPonits) {
-      return "NPC je pobedio";
-    } else {
-      return "Nereseno";
+<body>
+  <div class="inputs">
+    <input type="button" name="PAPER" id="paper" value="paper">
+    <input type="button" name="SCISSORS" id="scissors" value="scissors">
+    <input type="button" name="ROCK" id="rock" value="rock">
+  </div>
+
+  <table id="#table">
+    <tr>
+      <td>Vasi poeni:</td>
+      <td id="playerPoints"></td>
+    </tr>
+    <tr>
+      <td>Poeni NPC:</td>
+      <td id="npcPoints"></td>
+    </tr>
+  </table>
+
+  <div>
+    <h1 id="result"></h1>
+  </div>
+
+  <script>
+    /* 
+    Ovde imamo skriptu za osnovnu igricu papir kamen makaze. Nasumicna igra kompjutera,
+    zatim igracev unos, poredjenje njihovih poteza i vracanje rezultata.
+    */
+    const rock = "ROCK";
+    const paper = "PAPER";
+    const scissors = "SCISSORS";
+    var npcPoints = 0;
+    var playerPoints = 0;
+    function computerPlay() {
+      var npc = Math.floor(Math.random() * 3);
+      switch (npc) {
+        case 0:
+          return paper;
+        case 1:
+          return scissors;
+        case 2:
+          return rock;
+      }
     }
-  }
 
-  function play() {
-    computerSelection = computerPlay();
-    playerSelection = prompt("Unesite vas potez, (PAPER, ROCK SCISSORS)");
-    var result = playRound(playerSelection, computerSelection);
-    console.log("Poeni:");
-    console.log("Vasi: " + playerPoints + ", NPC: " + npcPonits);
-  }
+    function playRound(playerSelection, computerSelection) {
+      console.log(playerSelection + computerSelection);
+      if (playerSelection === computerSelection) {
+        //console.log(playerSelection, computerSelection, "1");
+        return "Nereseno";
+      }
+      if (playerSelection === paper && computerSelection == rock) {
+        // console.log(playerSelection, computerSelection, "2");
+        playerPoints++;
+        return "Pobedili ste, papir pobedjuje kamen";
+      }
+      if (playerSelection === scissors && computerSelection == paper) {
+        // console.log(playerSelection, computerSelection, "3");
+        playerPoints++;
+        return "Pobedili ste, makaze pobedjuju papir";
+      }
+      if (playerSelection === rock && computerSelection == scissors) {
+        // console.log(playerSelection, computerSelection, "4");
+        playerPoints++;
+        return "Pobedili ste, kamen pobedjuje makaze";
+      }
+      // console.log(playerSelection, computerSelection, "5");
+      npcPoints++;
+      return "Izgubili ste";
+    }
 
-  for (var i = 0; i < 5; i++) {
-    play();
-  }
+    var winner1 = "";
+    function winner() {
+      if (playerPoints > npcPonits) {
+        return "Vi ste pobedili";
+      } else if (playerPoints < npcPonits) {
+        return "NPC je pobedio";
+      } else {
+        return "Nereseno";
+      }
+    }
 
-  console.log(winner());
+    function play() {
+      const res = document.querySelector("#result");
+      const playerPointsTable = document.querySelector("#playerPoints");
+      const npcPointsTable = document.querySelector("#npcPoints")
+      let result = playRound(this.name, computerPlay());
+      res.textContent = `${result}`;
+      playerPointsTable.textContent = playerPoints;
+      npcPointsTable.textContent = npcPoints;
+    }
 
-</script>
+
+    const inputs = document.querySelectorAll('.inputs input');
+    console.log(inputs);
+
+    inputs.forEach(input => input.addEventListener('mousedown', play));
+
+  </script>
+
+  <style>
+    table {
+      border: 2px double black;
+      margin: 20px;
+    }
+    table td {
+      padding: 10px 20px;
+      border: 2px double black;
+    }
+  </style>
+
+</body>
+
+</html>
