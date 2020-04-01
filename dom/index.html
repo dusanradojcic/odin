@@ -1,0 +1,74 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            border: 5px dotted black;
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main-div"></div>
+
+    <button id="btn">Click Me</button>
+
+    <div id="buttons">
+        <button id="1">Click Me</button>
+        <button id="2">Click Me</button>
+        <button id="3">Click Me</button>
+    </div>
+
+
+    <script>
+        const container = document.querySelector('#main-div');
+
+        const paragraf = document.createElement('p');
+        paragraf.textContent = "Hey I'm red";
+        paragraf.style['color'] = 'red';
+
+        const heading = document.createElement('h3');
+        heading.textContent = "I'm a blue h3";
+        heading.style.color = 'blue';
+
+        const content = document.createElement('div');
+        content.classList.add("content");
+
+        const heading2 = document.createElement('h1');
+        heading2.textContent = "I'm in a div";
+
+        const paragraf2 = document.createElement('p');
+        paragraf2.textContent = "ME TOO!";
+
+        content.appendChild(heading2);
+        content.appendChild(paragraf2);
+
+        container.appendChild(paragraf);
+        container.appendChild(heading);
+        container.appendChild(content);
+
+        const btn = document.querySelector('#btn');
+        btn.addEventListener('click', (e) => {
+            alert(e.target.style.background = 'blue');
+
+        });
+
+        const buttons = document.querySelectorAll('button');
+
+        // we use the .forEach method to iterate through each button
+        buttons.forEach((button) => {
+
+            // and for each one we add a 'click' listener
+            button.addEventListener('click', (e) => {
+                alert(button.id);
+            });
+        });
+
+    </script>
+</body>
+
+</html>
