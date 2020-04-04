@@ -1,3 +1,6 @@
+"use strict"
+
+//Basic math func
 function sum(a, b) {
     return a + b;
 }
@@ -14,47 +17,115 @@ function divide(a, b) {
     return b === 0 ? NaN : a / b;
 }
 
-const buttons = document.querySelectorAll('#buttons button');
+//Getting dom elements
+const buttons = Array.from(document.querySelectorAll('#buttons button'));
 const display = document.querySelector('#display p');
 
-console.table(buttons);
-
+//Add eventlisteners to buttons
 buttons.forEach(button => button.addEventListener('click', displayNumbers));
 
-var firstNumber = 0;
-var currentNumber = 0;
+//Complete logic behind calc
 function displayNumbers() {
+    //To be sure that only one button can have the class of is depressed
+    buttons.forEach(button => button.classList.remove('is-depressed'));
 
-    switch (this.value) {
-        case '=':
-            console.log("Jednako");
+    const value = this.value;
+    const action = this.dataset.action;
+    const displayedNum = display.textContent;
+    var previousKeyType = display.dataset.previousKeyType;
+
+    //If numbered buttons are selected
+    if (!action) {
+        if (displayedNum === '0' || previousKeyType === 'operator') {
+            display.textContent = value;
+            display.dataset.previousKeyType = '';
+        } else {
+            display.textContent = displayedNum + value;
+        }
+    }
+
+    if (action === 'plus' ||
+        action === 'minus' ||
+        action === 'multiply' ||
+        action === 'divide') {
+
+        const firstValue = display.dataset.firstValue;
+        const operator = display.dataset.operator;
+        const secondValue = displayedNum;
+
+        //To calculate with multiple numbers and operators in a row, without usign equals
+        if (firstValue && operator && previousKeyType !== 'operator') {
+            display.textContent = calculate(firstValue, operator, secondValue);
+            display.dataset.firstValue = display.textContent;
+        } else {
+            display.dataset.firstValue = displayedNum;
+        }
+        this.classList.add('is-depressed');
+        display.dataset.previousKeyType = 'operator'
+        display.dataset.operator = action;
+    }
+
+    if (action === 'dot') {
+        if (previousKeyType === 'operator') {
+            display.textContent = '0.'
+        }
+        if (!displayedNum.includes('.')) {
+            display.textContent = displayedNum + value;
+        }
+        display.dataset.previousKeyType = 'decimal'
+    }
+
+    if (action === 'c') {
+        display.textContent = '0';
+        display.dataset.firstValue = '';
+        display.dataset.operator = '';
+        display.dataset.previousKeyType = '';
+    }
+
+    if (action === 'ce') {
+        display.textContent = '0';
+    }
+
+    if (action === 'del') {
+        if (displayedNum.length <= 1) {
+            display.textContent = 0;
+        } else {
+            display.textContent = displayedNum.slice(0, displayedNum.length - 1);
+        }
+    }
+
+    if (action === 'equals') {
+        const firstValue = display.dataset.firstValue;
+        const operator = display.dataset.operator;
+        const secondValue = displayedNum;
+        if (!firstValue || !secondValue) {
+            display.textContent = '0';
+        } else {
+            display.textContent = calculate(firstValue, operator, secondValue);
+        }
+    }
+}
+
+function calculate(a, operator, b) {
+    a = parseFloat(a);
+    b = parseFloat(b);
+    var result = 0;
+    switch (operator) {
+        case 'plus':
+            result = sum(a, b);
             break;
-        case 'c':
-            console.log('clear');
+        case 'minus':
+            result = minus(a, b);
             break;
-        case 'ce':
-            console.log('clear');
+        case 'multiply':
+            result = multiply(a, b);
             break;
-        case 'del':
-            console.log('del');
-            break;
-        case '-':
-            console.log('minus');
-            break;
-        case '+':
-            firstNumber = currentNumber;
-            currentNumber = 0;
-            break
-        case '*':
-            firstNumber = currentNumber;
-            currentNumber = 0;
-            break;
-        case '/':
-            firstNumber = currentNumber;
-            currentNumber = 0;
+        case 'divide':
+            result = divide(a, b);
             break;
         default:
-            currentNumber = currentNumber * 10 + parseInt(this.value);
-            display.textContent = currentNumber;
+            result = 'error';
+            break;
     }
+    return result.toFixed(2);
 }
