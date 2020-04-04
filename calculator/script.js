@@ -67,7 +67,7 @@ function displayNumbers() {
 
     if (action === 'dot') {
         if (!displayedNum.includes('.')) {
-            display.textContent = displayedNum + '.'
+            display.textContent = displayedNum + '.';
         } else if (
             previousKeyType === 'operator' ||
             previousKeyType === 'calculate'
@@ -117,23 +117,11 @@ function displayNumbers() {
 function calculate(a, operator, b) {
     a = parseFloat(a);
     b = parseFloat(b);
-    var result = 0;
     switch (operator) {
-        case 'plus':
-            result = sum(a, b);
-            break;
-        case 'minus':
-            result = minus(a, b);
-            break;
-        case 'multiply':
-            result = multiply(a, b);
-            break;
-        case 'divide':
-            result = divide(a, b);
-            break;
-        default:
-            result = 'error';
-            break;
+        case 'plus': return sum(a, b);
+        case 'minus': return minus(a, b);
+        case 'multiply': return multiply(a, b);
+        case 'divide': return divide(a, b).toFixed(2);
+        default: return 'error';
     }
-    return result.toFixed(2);
 }
