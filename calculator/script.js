@@ -36,7 +36,7 @@ function displayNumbers() {
 
     //If numbered buttons are selected
     if (!action) {
-        if (displayedNum === '0' || previousKeyType === 'operator') {
+        if (displayedNum === '0' || previousKeyType === 'operator' || previousKeyType === 'calculate') {
             display.textContent = value;
             display.dataset.previousKeyType = '';
         } else {
@@ -66,8 +66,8 @@ function displayNumbers() {
     }
 
     if (action === 'dot') {
-        if (previousKeyType === 'operator') {
-            display.textContent = '0.'
+        if (previousKeyType === 'operator' || previousKeyType === 'equals') {
+            display.textContent = '0.';
         }
         if (!displayedNum.includes('.')) {
             display.textContent = displayedNum + value;
@@ -95,15 +95,20 @@ function displayNumbers() {
     }
 
     if (action === 'equals') {
-        const firstValue = display.dataset.firstValue;
+        let firstValue = display.dataset.firstValue;
         const operator = display.dataset.operator;
-        const secondValue = displayedNum;
-        if (!firstValue || !secondValue) {
-            display.textContent = '0';
-        } else {
+        let secondValue = displayedNum;
+        if (firstValue) {
+            if (previousKeyType === 'calculate') {
+                firstValue = displayedNum;
+                secondValue = display.dataset.modValue
+            }
             display.textContent = calculate(firstValue, operator, secondValue);
         }
+        display.dataset.modValue = secondValue;
+        display.dataset.previousKeyType = 'calculate';
     }
+
 }
 
 function calculate(a, operator, b) {
