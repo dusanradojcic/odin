@@ -54,7 +54,7 @@ function displayNumbers() {
         const secondValue = displayedNum;
 
         //To calculate with multiple numbers and operators in a row, without usign equals
-        if (firstValue && operator && previousKeyType !== 'operator') {
+        if (firstValue && operator && previousKeyType !== 'operator' && previousKeyType !== 'calculate') {
             display.textContent = calculate(firstValue, operator, secondValue);
             display.dataset.firstValue = display.textContent;
         } else {
@@ -66,13 +66,16 @@ function displayNumbers() {
     }
 
     if (action === 'dot') {
-        if (previousKeyType === 'operator' || previousKeyType === 'equals') {
+        if (!displayedNum.includes('.')) {
+            display.textContent = displayedNum + '.'
+        } else if (
+            previousKeyType === 'operator' ||
+            previousKeyType === 'calculate'
+        ) {
             display.textContent = '0.';
         }
-        if (!displayedNum.includes('.')) {
-            display.textContent = displayedNum + value;
-        }
-        display.dataset.previousKeyType = 'decimal'
+
+        display.dataset.previousKeyType = 'decimal';
     }
 
     if (action === 'c') {
